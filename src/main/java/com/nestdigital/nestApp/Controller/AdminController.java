@@ -42,4 +42,10 @@ public class AdminController {
         dao.edit(update.getAddress(),update.getEmail(),update.getName(),update.getPhoneNumber(),update.getDob(),update.getJoinDate(),update.getPassword(),update.getUserName(),update.getEmpCode());
         return "{Status:Success}";
     }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "/signin",consumes = "application/json",produces = "application/json")
+    public List<AdminModel> siginIn(@RequestBody AdminModel e){
+        return (List<AdminModel>) dao.SignupBy(e.getUserName(),e.getPassword());
+    }
     }

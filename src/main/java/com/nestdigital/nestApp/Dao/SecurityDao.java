@@ -13,7 +13,7 @@ public interface SecurityDao extends CrudRepository<SecurityModel,Integer> {
     @Query(value = "DELETE FROM `security` WHERE `s_code`=:s_code",nativeQuery = true)
     void deleteSecurity(Integer s_code);
 
-    @Query(value = "SELECT `id`, `s_add`, `s_code`, `s_date`, `s_name`, `s_phone` FROM `security` WHERE `s_code`=:s_code",nativeQuery = true)
+    @Query(value = "SELECT `id`, `s_add`, `s_code`, `s_date`, `s_name`, `s_password`, `s_phone`, `s_username` FROM `security` WHERE `s_code`=:s_code",nativeQuery = true)
     List<SecurityModel> searchSecurity(Integer s_code);
 
 

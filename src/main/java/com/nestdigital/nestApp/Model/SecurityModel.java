@@ -17,13 +17,18 @@ public class SecurityModel {
     private String sPhone;
     private String sDate;
 
-    public SecurityModel(int id, int sCode, String sName, String sAdd, String sPhone, String sDate) {
+    private String sPassword;
+    private String sUsername;
+
+    public SecurityModel(int id, int sCode, String sName, String sAdd, String sPhone, String sDate, String sPassword, String sUsername) {
         this.id = id;
         this.sCode = sCode;
         this.sName = sName;
         this.sAdd = sAdd;
         this.sPhone = sPhone;
         this.sDate = sDate;
+        this.sPassword = sPassword;
+        this.sUsername = sUsername;
     }
 
     public SecurityModel() {
@@ -75,5 +80,21 @@ public class SecurityModel {
 
     public void setsDate(String sDate) {
         this.sDate = sDate;
+    }
+
+    public String getsPassword() {
+        return sPassword;
+    }
+
+    public void setsPassword(String sPassword) {
+        this.sPassword = sPassword;
+    }
+
+    public String getsUsername() {
+        return sUsername;
+    }
+
+    public void setsUsername(String sUsername) {
+        this.sUsername = sUsername;
     }
 }
