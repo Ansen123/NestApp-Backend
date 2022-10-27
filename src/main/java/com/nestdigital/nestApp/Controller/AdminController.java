@@ -35,4 +35,11 @@ public class AdminController {
         dao.deleteEmployeeByEmp_code(delete.getEmpCode());
         return "{status:Success}";
     }
+    @CrossOrigin(origins = "*")
+    @PostMapping("/upadate")
+    @Transactional
+    public String updateEmp(@RequestBody AdminModel update){
+        dao.edit(update.getAddress(),update.getEmail(),update.getName(),update.getPhoneNumber(),update.getDob(),update.getJoinDate(),update.getPassword(),update.getUserName(),update.getEmpCode());
+        return "{Status:Success}";
+    }
     }
