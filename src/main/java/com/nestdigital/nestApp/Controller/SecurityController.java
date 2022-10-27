@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -43,8 +44,22 @@ public class SecurityController {
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping(path = "/searchSecurity",consumes = "application/json",produces = "application/json")
-    public List<SecurityModel>searchSecurity(@RequestBody SecurityModel search){
-        return (List<SecurityModel>)dao.searchSecurity(search.getsCode());
+    @PostMapping(path = "/searchSecurity", consumes = "application/json", produces = "application/json")
+    public List<SecurityModel> searchSecurity(@RequestBody SecurityModel search) {
+        return (List<SecurityModel>) dao.searchSecurity(search.getsCode());
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/updateSecurity", consumes = "application/json", produces = "application/json")
+    @Transactional
+    public String updateSec(@RequestBody SecurityModel update) {
+        dao.edit(update.getsAdd(),update.getsCode(),update.getsDate(),update.getsName(),update.getsPassword(),update.getsPhone(),update.getsUsername());
+        return "{Status:Success}";
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "/signinSecurity",consumes = "application/json",produces = "application/json")
+    public List<SecurityModel> siginIn(@RequestBody SecurityModel m){
+        return (List<SecurityModel>) dao.SignupBySecurity(m.getsUsername(),m.getsPassword());
     }
 }
