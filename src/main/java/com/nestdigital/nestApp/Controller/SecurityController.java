@@ -1,65 +1,62 @@
 package com.nestdigital.nestApp.Controller;
 
 import com.nestdigital.nestApp.Dao.SecurityDao;
-import com.nestdigital.nestApp.Model.AdminModel;
 import com.nestdigital.nestApp.Model.SecurityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
 public class SecurityController {
+
     @Autowired
     private SecurityDao dao;
 
     @CrossOrigin(origins = "*")
-    @PostMapping(path = "/Sadd", consumes = "application/json", produces = "application/json")
-    public String AddSecurity(@RequestBody SecurityModel addSecurity) {
-        DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        String currentdate = String.valueOf(dt.format(now));
-        addSecurity.setsDate(currentdate);
-
-        dao.save(addSecurity);
-        return "{Status:Success}";
+    @PostMapping(path = "/addsecurity",consumes = "application/json",produces = "application/json")
+    public String addSecurity(@RequestBody SecurityModel sm){
+        DateTimeFormatter dt=DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime now=LocalDateTime.now();
+        String currentdate=String.valueOf(dt.format(now));
+        sm.setrDate(currentdate);
+        dao.save(sm);
+        return "{status:'success'}";
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/viewSecurty")
-    public List<SecurityModel> viewS() {
+    @GetMapping("/viewallsec")
+    public List<SecurityModel> viewAllSec(){
         return (List<SecurityModel>) dao.findAll();
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/deleteSecurity")
+    @PostMapping(path = "/searchsecu",consumes = "application/json",produces = "application/json")
+    public List<SecurityModel> searchSecurity(@RequestBody SecurityModel sm){
+        return (List<SecurityModel>) dao.searchSecurityBy(sm.getsCode());
+
+    }
     @Transactional
-    public String deleteSeurity(@RequestBody SecurityModel delete) {
-        dao.deleteSecurity(delete.getsCode());
-        return "{status:Success}";
-    }
-
     @CrossOrigin(origins = "*")
-    @PostMapping(path = "/searchSecurity", consumes = "application/json", produces = "application/json")
-    public List<SecurityModel> searchSecurity(@RequestBody SecurityModel search) {
-        return (List<SecurityModel>) dao.searchSecurity(search.getsCode());
+    @PostMapping(path = "/deletesec",consumes = "application/json",produces = "application/json")
+    public String deleteSecurity(@RequestBody SecurityModel s){
+        dao.deleteByScode(s.getsCode());
+        return "{status:'success'}";
     }
-
-    @CrossOrigin(origins = "*")
-    @PostMapping(path = "/updateSecurity", consumes = "application/json", produces = "application/json")
     @Transactional
-    public String updateSec(@RequestBody SecurityModel update) {
-        dao.edit(update.getsAdd(),update.getsCode(),update.getsDate(),update.getsName(),update.getsPassword(),update.getsPhone(),update.getsUsername());
-        return "{Status:Success}";
+    @CrossOrigin(value = "*")
+    @PostMapping(path = "/updatesecurity",consumes = "application/json",produces = "application/json")
+    public String updateSecurity(@RequestBody SecurityModel s){
+        dao.updateBy(s.getsCode());
+        return "{status:'success'}";
+    }
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "/signinsecurity",consumes = "application/json",produces = "application/json")
+    public List<SecurityModel> signInS(@RequestBody SecurityModel s){
+        return (List<SecurityModel>) dao.signSBy(s.getUserName(),s.getPass());
     }
 
-    @CrossOrigin(origins = "*")
-    @PostMapping(value = "/signinSecurity",consumes = "application/json",produces = "application/json")
-    public List<SecurityModel> siginIn(@RequestBody SecurityModel m){
-        return (List<SecurityModel>) dao.SignupBySecurity(m.getsUsername(),m.getsPassword());
-    }
 }

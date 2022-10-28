@@ -6,32 +6,34 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Security")
+@Table(name = "security_tb")
 public class SecurityModel {
     @Id
     @GeneratedValue
-    private int id;
-    private int sCode;
-    private String sName;
-    private String sAdd;
-    private String sPhone;
-    private String sDate;
 
-    private String sPassword;
-    private String sUsername;
+    public int id;
+    public int sCode;
+    public String sName;
+    public String sPhn;
+    public String sAddress;
+    public String rDate;
+    public String userName;
+    public String pass;
 
-    public SecurityModel(int id, int sCode, String sName, String sAdd, String sPhone, String sDate, String sPassword, String sUsername) {
+    public SecurityModel() {
+    }
+
+    public SecurityModel(int id, int sCode, String sName, String sPhn, String sAddress, String rDate, String userName, String pass) {
         this.id = id;
         this.sCode = sCode;
         this.sName = sName;
-        this.sAdd = sAdd;
-        this.sPhone = sPhone;
-        this.sDate = sDate;
-        this.sPassword = sPassword;
-        this.sUsername = sUsername;
-    }
+        this.sPhn = sPhn;
+        this.sAddress = sAddress;
+        this.rDate = rDate;
+        this.userName = userName;
+        this.pass = pass;
 
-    public SecurityModel() {
+
     }
 
     public int getId() {
@@ -58,43 +60,43 @@ public class SecurityModel {
         this.sName = sName;
     }
 
-    public String getsAdd() {
-        return sAdd;
+    public String getsPhn() {
+        return sPhn;
     }
 
-    public void setsAdd(String sAdd) {
-        this.sAdd = sAdd;
+    public void setsPhn(String sPhn) {
+        this.sPhn = sPhn;
     }
 
-    public String getsPhone() {
-        return sPhone;
+    public String getsAddress() {
+        return sAddress;
     }
 
-    public void setsPhone(String sPhone) {
-        this.sPhone = sPhone;
+    public void setsAddress(String sAddress) {
+        this.sAddress = sAddress;
     }
 
-    public String getsDate() {
-        return sDate;
+    public String getrDate() {
+        return rDate;
     }
 
-    public void setsDate(String sDate) {
-        this.sDate = sDate;
+    public void setrDate(String rDate) {
+        this.rDate = rDate;
     }
 
-    public String getsPassword() {
-        return sPassword;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setsPassword(String sPassword) {
-        this.sPassword = sPassword;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getsUsername() {
-        return sUsername;
+    public String getPass() {
+        return pass;
     }
 
-    public void setsUsername(String sUsername) {
-        this.sUsername = sUsername;
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 }

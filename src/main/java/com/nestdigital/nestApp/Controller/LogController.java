@@ -10,48 +10,42 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+
 @RestController
 public class LogController {
     @Autowired
-    private LogDao logDao;
-
-
-    //When employee is logged in
+    private LogDao dao;
     @CrossOrigin(origins = "*")
-    @PostMapping("/checkIn")
-    public String addLogDetails(@RequestBody LogModel logModel){
-        DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        logModel.setLogin_time((String.valueOf(date.format(now))));
-        logDao.save(logModel);
-        return "Success";
+    @PostMapping(path = "/addlog",consumes = "application/json",produces = "application/json")
+    public String addLog(@RequestBody LogModel l){
+        DateTimeFormatter dt=DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm:ss");
+        LocalDateTime now=LocalDateTime.now();
+        String currentdate=String.valueOf(dt.format(now));
+        l.setInDate(currentdate);
+        dao.save(l);
+        return "{status:'success'}";
     }
-
-    //When employee sign-out
+    @CrossOrigin(origins = "*")
     @Transactional
-    @CrossOrigin(origins = "*")
-    @PostMapping("/checkOut")
-    public String updateLogDetails(@RequestBody LogModel logModel){
-        DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        logModel.setLogout_time((String.valueOf(date.format(now))));
-        logDao.updateLogDetails(logModel.getLogout_time(), logModel.getLogout_sec_id(), logModel.getId());
-        return "Success";
+    @PostMapping(path = "/logout",consumes = "application/json",produces = "application/json")
+    public String logOutStatus(@RequestBody LogModel l){
+        DateTimeFormatter dt=DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm:ss");
+        LocalDateTime now=LocalDateTime.now();
+        String currentdate=String.valueOf(dt.format(now));
+        l.setOutDate(currentdate);
+        dao.logOutStatus(l.getCheckOut(),l.getOutDate(),l.getEmpId());
+        return "{status:success}";
     }
-
-
-    //View all employee logs
     @CrossOrigin(origins = "*")
-    @GetMapping("/viewAllLog")
+    @GetMapping("/viewalllogs")
     public List<Map<String,String>> viewAllLog(){
-        return (List<Map<String, String>>) logDao.viewAllLogs();
+        return (List<Map<String, String>>) dao.viewAllLogBy();
+    }
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/viewlogbyid",consumes = "application/json",produces = "application/json")
+    public List<Map<String,String>> viewLogByEmp(@RequestBody LogModel l){
+        return (List<Map<String, String>>) dao.viewlogByEmpid(l.getEmpId());
     }
 
-    //view log of a particular employee (by emp_id)
-    @CrossOrigin(origins = "*")
-    @PostMapping("/viewLogById")
-    public List<Map<String,String>> viewLogById(@RequestBody LogModel logModel){
-        return (List<Map<String, String>>) logDao.viewLogByEmpId(logModel.getEmp_id());
-    }
 
 }
