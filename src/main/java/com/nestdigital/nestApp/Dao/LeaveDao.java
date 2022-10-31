@@ -12,7 +12,7 @@ public interface LeaveDao extends CrudRepository<LeaveModel,Integer> {
     @Modifying
     @Query(value = "UPDATE `leaves` SET `status`= :status WHERE id = :id",nativeQuery = true)
     void changeStatusOfLeave(int id,int status);
-    @Query(value = "SELECT l.`id`, l.`status`, l.`apply_date`, l.`emp_id`, l.`leave_date`,e.e_name FROM `leaves` l JOIN employee_tb e ON l.emp_id=e.emp_id"  ,nativeQuery = true)
+    @Query(value = "SELECT l.`id`, l.`status`, l.`apply_date`, l.`description`, l.`emp_id`, l.`leave_date`, l.`type`,e.e_name FROM `leaves` l JOIN employee_tb e ON l.emp_id=e.emp_id"  ,nativeQuery = true)
     List<Map<String,String>> viewAllLeave();
 
     @Query(value = "SELECT l.`id`, l.`status`, l.`apply_date`, l.`emp_id`, l.`leave_date`, l.`type`," +
