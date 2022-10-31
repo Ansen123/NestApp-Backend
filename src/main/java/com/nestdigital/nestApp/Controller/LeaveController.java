@@ -29,7 +29,7 @@ public class LeaveController {
         return "{status:'success'}";
     }
 
-    @Transactiona
+    @Transaction
     @CrossOrigin("*")
     @PostMapping("/leaveStatus")
     public String changeLeaveStatus(@RequestBody LeaveModel model){
