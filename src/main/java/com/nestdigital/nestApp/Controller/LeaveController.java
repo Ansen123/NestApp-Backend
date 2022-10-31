@@ -29,12 +29,12 @@ public class LeaveController {
         return "{status:'success'}";
     }
 
-
-    @CrossOrigin("*")
-    @PostMapping("/leaveStatus")
-    public String changeLeaveStatus(@RequestBody LeaveModel model){
-        dao.changeStatusOfLeave(model.getId(), model.getStatus());
-        return "Success'";
+    @Transactional
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/updatestatus",consumes = "application/json",produces = "application/json")
+    public String updateStatus(@RequestBody LeaveModel lm){
+        dao.changeStatusOfLeave(lm.getStatus(),lm.getId());
+        return "{status:'success'}";
     }
     @CrossOrigin(origins = "*")
     @GetMapping("/viewallleaves")
