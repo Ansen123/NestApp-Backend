@@ -16,8 +16,6 @@ public class LeaveController {
     @Autowired
     private LeaveDao leaveDao;
 
-
-    //Add leave applications in employee
     @CrossOrigin("*")
     @PostMapping("/applyLeave")
     public String applyLeave(@RequestBody LeaveModel model){
@@ -26,10 +24,8 @@ public class LeaveController {
         model.setApplyDate((String.valueOf(date.format(now))));
         model.setStatus(0);
         leaveDao.save(model);
-        return "Success";
+        return "Leave Applied";
     }
-
-    //change leave status in admin
     @Transactional
     @CrossOrigin("*")
     @PostMapping("/leaveStatus")
@@ -37,20 +33,15 @@ public class LeaveController {
         leaveDao.changeStatusOfLeave(model.getId(), model.getStatus());
         return "Success'";
     }
-
-    //View All leaves in admin
     @CrossOrigin("*")
     @GetMapping("/viewAllLeaves")
     public List<Map<String,String>> viewAllLeaves(){
         return (List<Map<String, String>>) leaveDao.viewAllLeave();
     }
-
-
-    //view all leaves pf empl0yee by employee
     @CrossOrigin("*")
     @PostMapping("/viewLeaveById")
     public List<Map<String,String>> viewLeaveById(@RequestBody LeaveModel model){
         return (List<Map<String, String>>) leaveDao.viewLeaveByEmpID(model.getEmp_id());
     }
-
 }
+
