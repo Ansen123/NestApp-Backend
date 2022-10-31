@@ -13,39 +13,35 @@ import java.util.Map;
 
 @RestController
 public class LeaveController {
-
-
     @Autowired
-    private LeaveDao dao;
-    @CrossOrigin(origins = "*")
-    @PostMapping(path = "/addleave",consumes = "application/json",produces = "application/json")
-    public  String addLeave(@RequestBody LeaveModel lm){
-        DateTimeFormatter dt=DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm:ss");
-        LocalDateTime now=LocalDateTime.now();
-        String currentdate=String.valueOf((dt.format(now)));
-        lm.setApplyDate(currentdate);
+    private LeaveDao leaveDao;
 
-        dao.save(lm);
-        return "{status:'success'}";
+    @CrossOrigin("*")
+    @PostMapping("/applyLeave")
+    public String applyLeave(@RequestBody LeaveModel model){
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        model.setApplyDate((String.valueOf(date.format(now))));
+        model.setStatus(0);
+        leaveDao.save(model);
+        return "Leave Applied";
     }
-
     @Transactional
-    @CrossOrigin(origins = "*")
-    @PostMapping(path = "/updatestatus",consumes = "application/json",produces = "application/json")
-    public String updateStatus(@RequestBody LeaveModel lm){
-        dao.changeStatusOfLeave(lm.getStatus(),lm.getId());
-        return "{status:'success'}";
+    @CrossOrigin("*")
+    @PostMapping("/leaveStatus")
+    public String changeLeaveStatus(@RequestBody LeaveModel model){
+        leaveDao.changeStatusOfLeave(model.getId(), model.getStatus());
+        return "Success'";
     }
-    @CrossOrigin(origins = "*")
-    @GetMapping("/viewallleaves")
-    public List<Map<String ,String>> viewallleaves(){
-       return (List<Map<String, String>>) dao.viewAllLeaveBy();
-
+    @CrossOrigin("*")
+    @GetMapping("/viewAllLeaves")
+    public List<Map<String,String>> viewAllLeaves(){
+        return (List<Map<String, String>>) leaveDao.viewAllLeave();
     }
-    @CrossOrigin(origins = "*")
-    @PostMapping(path = "/viewleavesbyempid",consumes = "application/json",produces = "application/json")
-    public  List<Map<String,String>> viewLeavesById(@RequestBody LeaveModel lm){
-        return (List<Map<String, String>>) dao.viewLeaveById(lm.getEmp_id());
+    @CrossOrigin("*")
+    @PostMapping("/viewLeaveById")
+    public List<Map<String,String>> viewLeaveById(@RequestBody LeaveModel model){
+        return (List<Map<String, String>>) leaveDao.viewLeaveByEmpID(model.getEmp_id());
     }
-
 }
+

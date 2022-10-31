@@ -9,16 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface LeaveDao extends CrudRepository<LeaveModel,Integer> {
-
-
     @Modifying
     @Query(value = "UPDATE `leaves` SET `status`= :status WHERE id = :id",nativeQuery = true)
     void changeStatusOfLeave(int id,int status);
+    @Query(value = "SELECT l.`id`, l.`status`, l.`apply_date`, l.`emp_id`, l.`leave_date`, l.`type`," +
+            " l.`description`,e.name FROM `leaves` l JOIN employees e ON l.emp_id = e.id",nativeQuery = true)
+    List<Map<String,String>> viewAllLeave();
 
-
-    @Query(value = "SELECT l.`id`, l.`apply_date`, l.`discrip`, l.`emp_id`, l.`leave_date`, l.`status`, l.`type`,e.e_name,e.e_desg FROM `leave_tb` l JOIN  employee_tb e ON l.emp_id=e.emp_id",nativeQuery = true)
-    List<Map<String,String>>viewAllLeaveBy();
-
-    @Query(value = "SELECT l.`id`, l.`apply_date`, l.`discrip`, l.`emp_id`, l.`leave_date`, l.`status`, l.`type`,e.e_name,e.e_desg FROM `leave_tb` l JOIN employee_tb e ON l.emp_id=e.emp_id WHERE l.emp_id=:emp_id",nativeQuery = true)
-    List<Map<String,String>>viewLeaveById(Integer emp_id);
+    @Query(value = "SELECT l.`id`, l.`status`, l.`apply_date`, l.`emp_id`, l.`leave_date`, l.`type`," +
+            " l.`description`,e.name FROM `leaves` l JOIN employees e ON l.emp_id = e.id WHERE l.emp_id = :id",nativeQuery = true)
+    List<Map<String,String>> viewLeaveByEmpID(int id);
 }
+
