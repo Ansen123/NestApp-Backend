@@ -1,31 +1,35 @@
 package com.nestdigital.nestApp.Model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "leave_tb")
+@Table(name = "leaves")
+
+@Getter
+@Setter
 public class LeaveModel {
     @Id
     @GeneratedValue
-    public int id;
-    public int emp_id;
-    public String type;
-    public String discrip;
-    public String applyDate;
-    public String leaveDate;
-    public int status;
+    private int id;
+    private int emp_id;
+    private String applyDate;
+    private String leaveDate;
+    private int Status;
 
-    public LeaveModel(int id, int emp_id, String type, String discrip, String applyDate, String leaveDate, int status) {
+    public LeaveModel(int id, int emp_id, String applyDate, String leaveDate, int status) {
         this.id = id;
         this.emp_id = emp_id;
-        this.type = type;
-        this.discrip = discrip;
         this.applyDate = applyDate;
         this.leaveDate = leaveDate;
-        this.status = status;
+        Status = status;
     }
 
     public LeaveModel() {
@@ -47,22 +51,6 @@ public class LeaveModel {
         this.emp_id = emp_id;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDiscrip() {
-        return discrip;
-    }
-
-    public void setDiscrip(String discrip) {
-        this.discrip = discrip;
-    }
-
     public String getApplyDate() {
         return applyDate;
     }
@@ -80,10 +68,10 @@ public class LeaveModel {
     }
 
     public int getStatus() {
-        return status;
+        return Status;
     }
 
     public void setStatus(int status) {
-        this.status = status;
+        Status = status;
     }
 }
