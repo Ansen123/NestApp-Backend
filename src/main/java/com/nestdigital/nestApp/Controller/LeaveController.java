@@ -39,9 +39,9 @@ public class LeaveController {
         return (List<Map<String, String>>) leaveDao.viewAllLeave();
     }
     @CrossOrigin("*")
-    @PostMapping("/viewLeaveById")
-    public List<Map<String,String>> viewLeaveById(@RequestBody LeaveModel model){
-        return (List<Map<String, String>>) leaveDao.viewLeaveByEmpID(model.getEmp_id());
+    @PostMapping(path = "/viewLeaveById", consumes = "application/json",produces = "application/json")
+    public  List<Map<String,String>> viewLeavesById(@RequestBody LeaveModel lm){
+        return (List<Map<String, String>>) leaveDao.viewLeaveById(lm.getEmp_id());
     }
 }
 

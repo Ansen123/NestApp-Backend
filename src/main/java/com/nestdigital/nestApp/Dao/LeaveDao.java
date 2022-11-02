@@ -15,7 +15,9 @@ public interface LeaveDao extends CrudRepository<LeaveModel,Integer> {
     @Query(value = "SELECT l.`id`, l.`status`, l.`apply_date`, l.`description`, l.`emp_id`, l.`leave_date`, l.`type`,e.e_name FROM `leaves` l JOIN employee_tb e ON l.emp_id=e.emp_id"  ,nativeQuery = true)
     List<Map<String,String>> viewAllLeave();
 
-    @Query(value = "SELECT l.`id`, l.`status`, l.`apply_date`, l.`description`, l.`emp_id`, l.`leave_date`, l.`type`,e.e_name FROM `leaves` l JOIN employee_tb e ON e.id=e.emp_id WHERE emp_id= emp_id.",nativeQuery = true)
-    List<Map<String,String>> viewLeaveByEmpID(int id);
+
+    @Query(value = "SELECT l.`id`, l.`apply_date`, l.`description`, l.`emp_id`, l.`leave_date`, l.`status`, l.`type`,e.e_name FROM `leaves` l JOIN employee_tb e ON l.emp_id=e.emp_id WHERE l.emp_id=:emp_id",nativeQuery = true)
+    List<Map<String,String>>viewLeaveById(Integer emp_id);
 }
+
 
