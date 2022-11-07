@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface SecurityDao extends CrudRepository<SecurityModel,Integer> {
@@ -20,6 +19,6 @@ public interface SecurityDao extends CrudRepository<SecurityModel,Integer> {
     @Query(value = "UPDATE `security_tb` SET `pass`=:pass,`r_date`=:r_date,`s_address`=:s_address,`s_name`=:s_name,`s_phn`=:s_phn,`user_name`=:user_name WHERE `s_code`=:s_code",nativeQuery = true)
     void updateBy(String pass,String r_date,String s_address,String s_name,String s_phn,String user_name, Integer s_code);
 
-    @Query(value = "SELECT `id`,`pass`, `r_date`, `s_address`, `s_code`, `s_name`, `s_phn`, `user_name` FROM `security_tb` WHERE `user_name`=:user_name AND `pass`=:pass",nativeQuery = true)
+    @Query(value = "SELECT `id`,`pass`, `r_date`, `s_address`, `s_code`, `s_name`, `s_phn`, `user_name` FROM `securities` WHERE `user_name`=:user_name AND `pass`=:pass",nativeQuery = true)
     List<SecurityModel>signSBy(String user_name,String pass);
 }

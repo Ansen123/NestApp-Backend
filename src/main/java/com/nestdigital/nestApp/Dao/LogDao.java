@@ -11,12 +11,13 @@ import java.util.Map;
 public interface LogDao extends CrudRepository<LogModel,Integer> {
 
     @Modifying
-    @Query(value = "UPDATE `log_tb` SET `check_out`=:check_out,`out_date`=:out_date WHERE `emp_id`=:emp_id",nativeQuery = true)
-    void logOutStatus(String check_out,String out_date, Integer emp_id);
+    @Query(value = "UPDATE `log` SET `logout_sec_id`= :logout_sec_id,`logout_time`= :logout_time WHERE `emp_id`= :emp_id",nativeQuery = true)
+    void Checkout(Integer logout_sec_id,String logout_time,Integer emp_id);
 
-    @Query(value = "SELECT l.`id`, l.`check_in`, l.`check_out`, l.`emp_id`, l.`in_date`, l.`out_date`,e.e_name,e.e_desg FROM `log_tb` l JOIN employee_tb e ON l.emp_id=e.emp_id",nativeQuery = true)
-    List<Map<String,String>> viewAllLogBy();
 
-    @Query(value = "SELECT l.`id`, l.`check_in`, l.`check_out`, l.`emp_id`, l.`in_date`, l.`out_date`,e.e_name FROM `log_tb`l JOIN employee_tb e ON l.`emp_id`=e.emp_id WHERE l.`emp_id`=:emp_id",nativeQuery = true)
-    List<Map<String,String>> viewlogByEmpid(Integer emp_id);
+    @Query(value = "SELECT l.`login_sec_id`, l.`login_time`, l.`logout_sec_id`, l.`logout_time`,e.e_name FROM `log` l JOIN employee_tb e ON l.emp_id=e.emp_id",nativeQuery = true)
+    List<Map<String,String>> viewallLogs();
+
+    @Query(value = "SELECT l.`login_sec_id`, l.`login_time`, l.`logout_sec_id`, l.`logout_time`,e.e_name FROM `log` l JOIN employee_tb e ON l.emp_id=e.emp_id WHERE l.emp_id=:emp_id",nativeQuery = true)
+    List<Map<String,String>> ViewByIdLogs(Integer emp_id);
 }

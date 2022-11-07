@@ -1,32 +1,39 @@
 package com.nestdigital.nestApp.Model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "log_tb")
+@Table(name = "log")
 public class LogModel {
+
     @Id
     @GeneratedValue
-    public int id;
-    public int empId;
-    public String checkIn;
-    public String checkOut;
-    public String inDate;
-    public String outDate;
 
-    public LogModel(int id, int empId, String checkIn, String checkOut, String inDate, String outDate) {
-        this.id = id;
-        this.empId = empId;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-        this.inDate = inDate;
-        this.outDate = outDate;
-    }
+    private int id;
+    private int emp_id;
+    private int login_sec_id;
+    private int logout_sec_id;
+    private String login_time;
+    private String logout_time;
 
     public LogModel() {
+    }
+
+    public LogModel(int id, int emp_id, int login_sec_id, int logout_sec_id, String login_time, String logout_time) {
+        this.id = id;
+        this.emp_id = emp_id;
+        this.login_sec_id = login_sec_id;
+        this.logout_sec_id = logout_sec_id;
+        this.login_time = login_time;
+        this.logout_time = logout_time;
     }
 
     public int getId() {
@@ -37,43 +44,43 @@ public class LogModel {
         this.id = id;
     }
 
-    public int getEmpId() {
-        return empId;
+    public int getEmp_id() {
+        return emp_id;
     }
 
-    public void setEmpId(int empId) {
-        this.empId = empId;
+    public void setEmp_id(int emp_id) {
+        this.emp_id = emp_id;
     }
 
-    public String getCheckIn() {
-        return checkIn;
+    public int getLogin_sec_id() {
+        return login_sec_id;
     }
 
-    public void setCheckIn(String checkIn) {
-        this.checkIn = checkIn;
+    public void setLogin_sec_id(int login_sec_id) {
+        this.login_sec_id = login_sec_id;
     }
 
-    public String getCheckOut() {
-        return checkOut;
+    public int getLogout_sec_id() {
+        return logout_sec_id;
     }
 
-    public void setCheckOut(String checkOut) {
-        this.checkOut = checkOut;
+    public void setLogout_sec_id(int logout_sec_id) {
+        this.logout_sec_id = logout_sec_id;
     }
 
-    public String getInDate() {
-        return inDate;
+    public String getLogin_time() {
+        return login_time;
     }
 
-    public void setInDate(String inDate) {
-        this.inDate = inDate;
+    public void setLogin_time(String login_time) {
+        this.login_time = login_time;
     }
 
-    public String getOutDate() {
-        return outDate;
+    public String getLogout_time() {
+        return logout_time;
     }
 
-    public void setOutDate(String outDate) {
-        this.outDate = outDate;
+    public void setLogout_time(String logout_time) {
+        this.logout_time = logout_time;
     }
 }

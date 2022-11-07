@@ -10,42 +10,46 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-
 @RestController
 public class LogController {
+
     @Autowired
     private LogDao dao;
+
     @CrossOrigin(origins = "*")
-    @PostMapping(path = "/addlog",consumes = "application/json",produces = "application/json")
-    public String addLog(@RequestBody LogModel l){
-        DateTimeFormatter dt=DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm:ss");
-        LocalDateTime now=LocalDateTime.now();
-        String currentdate=String.valueOf(dt.format(now));
-        l.setInDate(currentdate);
-        dao.save(l);
-        return "{status:'success'}";
-    }
-    @CrossOrigin(origins = "*")
-    @Transactional
-    @PostMapping(path = "/logout",consumes = "application/json",produces = "application/json")
-    public String logOutStatus(@RequestBody LogModel l){
-        DateTimeFormatter dt=DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm:ss");
-        LocalDateTime now=LocalDateTime.now();
-        String currentdate=String.valueOf(dt.format(now));
-        l.setOutDate(currentdate);
-        dao.logOutStatus(l.getCheckOut(),l.getOutDate(),l.getEmpId());
-        return "{status:success}";
-    }
-    @CrossOrigin(origins = "*")
-    @GetMapping("/viewalllogs")
-    public List<Map<String,String>> viewAllLog(){
-        return (List<Map<String, String>>) dao.viewAllLogBy();
-    }
-    @CrossOrigin(origins = "*")
-    @PostMapping(path = "/viewlogbyid",consumes = "application/json",produces = "application/json")
-    public List<Map<String,String>> viewLogByEmp(@RequestBody LogModel l){
-        return (List<Map<String, String>>) dao.viewlogByEmpid(l.getEmpId());
+    @PostMapping(path = "/checkin",consumes = "application/json",produces = "application/json")
+    public String CheckIn(@RequestBody LogModel log)
+    {
+        DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        log.setLogin_time((String.valueOf(dt.format(now))) );
+        dao.save(log);
+        return "{Status:'Success}";
     }
 
+    @Transactional
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/checkout",consumes = "application/json",produces = "application/json")
+    public String Checkout(@RequestBody LogModel log)
+    {
+        DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        log.setLogout_time((String.valueOf(dt.format(now))));
+        dao.Checkout(log.getLogout_sec_id(), log.getLogout_time(), log.getEmp_id());
+        return "{Status:'Success'}";
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/viewlogdetails")
+    public List<Map<String,String>> ViewLogDetails()
+    {
+        return (List<Map<String, String>>) dao.viewallLogs();
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/viewlogbyid",consumes = "application/json",produces = "application/json")
+    public List<Map<String,String>> ViewByIdLog(@RequestBody LogModel log){
+        return (List<Map<String, String>>) dao.ViewByIdLogs(log.getEmp_id());
+    }
 
 }

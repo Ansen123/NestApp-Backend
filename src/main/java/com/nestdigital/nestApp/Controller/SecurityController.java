@@ -22,7 +22,7 @@ public class SecurityController {
         DateTimeFormatter dt=DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now=LocalDateTime.now();
         String currentdate=String.valueOf(dt.format(now));
-        sm.setrDate(currentdate);
+        sm.setRDate(currentdate);
         dao.save(sm);
         return "{status:'success'}";
     }
@@ -36,14 +36,14 @@ public class SecurityController {
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/searchsecu",consumes = "application/json",produces = "application/json")
     public List<SecurityModel> searchSecurity(@RequestBody SecurityModel sm){
-        return (List<SecurityModel>) dao.searchSecurityBy(sm.getsCode());
+        return (List<SecurityModel>) dao.searchSecurityBy(sm.getSCode());
 
     }
     @Transactional
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/deletesec",consumes = "application/json",produces = "application/json")
     public String deleteSecurity(@RequestBody SecurityModel s){
-        dao.deleteByScode(s.getsCode());
+        dao.deleteByScode(s.getSCode());
         return "{status:'success'}";
     }
     @Transactional
@@ -51,7 +51,7 @@ public class SecurityController {
     @PostMapping(path = "/updatesecurity",consumes = "application/json",produces = "application/json")
     public String updateSecurity(@RequestBody SecurityModel s){
 
-        dao.updateBy(s.getPass(),s.getrDate(),s.getsAddress(),s.getsName(),s.getsPhn(),s.getUserName(),s.getsCode());
+        dao.updateBy(s.getPass(),s.getRDate(),s.getSAddress(),s.getSName(),s.getSPhn(),s.getUserName(),s.getSCode());
         return "{status:'success'}";
     }
     @CrossOrigin(origins = "*")
